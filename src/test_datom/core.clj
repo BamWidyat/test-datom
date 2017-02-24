@@ -59,9 +59,20 @@
     (<!! (client/q
           conn
           {:query '[:find ?content ?id
-                    :in $ ?item
+                    :in $ ?title
                     :where
-                    [?e :post/title ?item]
+                    [?e :post/title ?title]
                     [?e :post/id ?id]
                     [?e :post/content ?content]]
            :args [db input]}))))
+
+(defn db-get-all []
+  (let [db (client/db conn)]
+    (<!! (client/q
+          conn
+          {:query '[:find ?id ?title ?content
+                    :where
+                    [?e :post/id ?id]
+                    [?e :post/title ?title]
+                    [?e :post/content ?content]]
+           :args [db]}))))
